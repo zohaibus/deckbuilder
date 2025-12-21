@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Developer Architecture Template</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* RESET & BASE */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; font-family: 'Inter', sans-serif; overflow: hidden; }
+  
+  /* CONTAINER SETUP (Matches DeckBuilder Spec) */
+  .slide-container {
+    width: 1920px; height: 1080px;
+    margin: 0 auto; position: relative; overflow: hidden;
+    background: #0F172A; /* Slate 900 */
+    box-shadow: 0 0 50px #000;
+  }
+  
+  /* UTILITIES (Locked visual layers) */
+  .bg-grid {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px; pointer-events: none; z-index: 0;
+  }
+  
+  .glass-panel {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+
+  .accent-text { color: #38BDF8; } /* Sky 400 */
+  .mono { font-family: 'JetBrains Mono', monospace; }
+</style>
+</head>
+<body>
+
+<div class="slide-container">
+  <div class="bg-grid"></div>
+  
+  <div style="position: absolute; top: -100px; right: -100px; width: 800px; height: 800px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+
+  <div class="glass-panel" style="position: absolute; left: 120px; top: 380px; padding: 12px 24px; display: inline-block;">
+    <span class="mono" style="color: #94A3B8; font-size: 20px;">v2.0.4 &bull; Q3 ARCHITECTURE REVIEW</span>
+  </div>
+
+  <h1 style="position: absolute; left: 120px; top: 460px; font-size: 120px; font-weight: 800; color: white; line-height: 1.1; letter-spacing: -2px;">
+    System <br><span class="accent-text">Migration</span>
+  </h1>
+
+  <div style="position: absolute; left: 120px; top: 760px; font-size: 32px; color: #CBD5E1; max-width: 800px; line-height: 1.5;">
+    Moving from monolithic REST services to event-driven microservices.
+  </div>
+
+  <div class="mono" style="position: absolute; bottom: 60px; right: 60px; color: #475569; font-size: 24px;">
+    CONFIDENTIAL // INTERNAL
+  </div>
+</div>
+
+<div class="slide-container">
+  <div class="bg-grid"></div>
+
+  <h2 style="position: absolute; left: 80px; top: 80px; font-size: 64px; color: white; font-weight: 700;">Current Bottlenecks</h2>
+
+  <div class="glass-panel" style="position: absolute; left: 80px; top: 240px; width: 560px; height: 600px; padding: 40px;">
+    <div style="font-size: 80px; margin-bottom: 20px;">🐌</div>
+    <h3 style="color: white; font-size: 48px; margin-bottom: 20px;">Latency</h3>
+    <p style="color: #94A3B8; font-size: 28px; line-height: 1.4;">
+      P99 latency has degraded by <strong style="color: #F87171">300ms</strong> due to synchronous inter-service calls.
+    </p>
+  </div>
+
+  <div class="glass-panel" style="position: absolute; left: 680px; top: 240px; width: 560px; height: 280px; padding: 40px;">
+    <div style="font-size: 40px; margin-bottom: 10px;">💸</div>
+    <h3 style="color: white; font-size: 36px; margin-bottom: 10px;">Cost</h3>
+    <p style="color: #94A3B8; font-size: 24px;">
+      Infrastructure spend is up 40% YoY.
+    </p>
+  </div>
+
+  <div class="glass-panel" style="position: absolute; left: 680px; top: 560px; width: 560px; height: 280px; padding: 40px;">
+    <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
+    <h3 style="color: white; font-size: 36px; margin-bottom: 10px;">Security</h3>
+    <p style="color: #94A3B8; font-size: 24px;">
+      Dependency hell in legacy monolith.
+    </p>
+  </div>
+
+  <div class="glass-panel" style="position: absolute; left: 1280px; top: 240px; width: 560px; height: 600px; padding: 40px; background: rgba(56, 189, 248, 0.1); border-color: #38BDF8;">
+    <h3 class="accent-text" style="font-size: 36px; margin-bottom: 40px;">Incident Rate</h3>
+    <div style="display: flex; align-items: flex-end; height: 400px; gap: 40px;">
+      <div style="width: 100px; height: 40%; background: #334155; border-radius: 8px 8px 0 0; position: relative;">
+        <div style="position: absolute; bottom: -40px; width: 100%; text-align: center; color: white; font-size: 20px;">Q1</div>
+      </div>
+      <div style="width: 100px; height: 55%; background: #475569; border-radius: 8px 8px 0 0; position: relative;">
+        <div style="position: absolute; bottom: -40px; width: 100%; text-align: center; color: white; font-size: 20px;">Q2</div>
+      </div>
+      <div style="width: 100px; height: 85%; background: #38BDF8; border-radius: 8px 8px 0 0; position: relative; box-shadow: 0 0 20px rgba(56,189,248,0.4);">
+        <div style="position: absolute; bottom: -40px; width: 100%; text-align: center; color: white; font-size: 20px;">Q3</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide-container">
+  <div class="bg-grid"></div>
+  
+  <h2 style="position: absolute; left: 120px; top: 120px; font-size: 64px; color: white; font-weight: 700;">The Proposal</h2>
+  <p style="position: absolute; left: 120px; top: 220px; font-size: 32px; color: #94A3B8;">Adopt an Event Sourcing pattern.</p>
+
+  <div style="position: absolute; left: 120px; top: 320px; width: 1680px; height: 600px; background: #0f111a; border-radius: 12px; border: 1px solid #333; font-family: 'JetBrains Mono', monospace; padding: 40px; font-size: 28px; line-height: 1.6; color: #A9B7C6; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+    <div style="color: #CC7832;">interface</div> <span style="color: #FFC66D;">OrderCreatedEvent</span> {<br>
+    &nbsp;&nbsp;<span style="color: #9876AA;">orderId</span>: <span style="color: #A9B7C6;">string</span>;<br>
+    &nbsp;&nbsp;<span style="color: #9876AA;">timestamp</span>: <span style="color: #A9B7C6;">number</span>;<br>
+    &nbsp;&nbsp;<span style="color: #9876AA;">payload</span>: {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #9876AA;">items</span>: <span style="color: #A9B7C6;">OrderItem</span>[];<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #9876AA;">total</span>: <span style="color: #A9B7C6;">number</span>;<br>
+    &nbsp;&nbsp;}<br>
+    }<br>
+    <br>
+    <span style="color: #808080;">// New Async Handler</span><br>
+    <span style="color: #CC7832;">async function</span> <span style="color: #FFC66D;">handleOrder</span>(event) {<br>
+    &nbsp;&nbsp;<span style="color: #CC7832;">await</span> kafka.<span style="color: #FFC66D;">publish</span>(<span style="color: #6A8759;">'orders'</span>, event);<br>
+    }
+  </div>
+</div>
+
+</body>
+</html>
