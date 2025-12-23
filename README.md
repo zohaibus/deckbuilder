@@ -4,7 +4,7 @@
 
 No install. No cloud. No dependencies to manage. Just open and build.
 
-![DeckBuilder Editor](screenshot.png)
+![Demo](demo.gif)
 
 > **[Try it live →](https://zohaibus.github.io/deckbuilder/editor.html)** (or download and run locally)
 
@@ -12,6 +12,15 @@ No install. No cloud. No dependencies to manage. Just open and build.
 
 ## Why This Exists
 
+### The AI Workflow
+This tool bridges the gap between LLM generation and final polish.
+
+1. **Prompt:** Ask ChatGPT/Claude to "Generate an HTML slide deck about [Topic]"
+2. **Paste:** Drop the raw code into DeckBuilder.
+3. **Polish:** Use the visual editor to fix layout anomalies and drag-and-drop assets.
+4. **Ship:** Export to PDF or save as a single HTML file.
+
+### The Versioning Problem
 Most presentation tools break down under iteration speed and versioning pressure. You end up with `final_v2_FINAL_revised.pptx` scattered across cloud drives.
 
 I wanted a presentation tool that works like an editor, not a wizard. Files I own, diffs I can read, and no internet required.
@@ -53,7 +62,7 @@ I wanted a presentation tool that works like an editor, not a wizard. Files I ow
 
 ## Quick Start
 
-**Option 1: Try Online**  
+**Option 1: Try Online**
 Visit [zohaibus.github.io/deckbuilder](https://zohaibus.github.io/deckbuilder/editor.html)
 
 **Option 2: Download**
@@ -61,7 +70,7 @@ Visit [zohaibus.github.io/deckbuilder](https://zohaibus.github.io/deckbuilder/ed
 2. Open in Chrome/Edge
 3. Start building
 
-Or use the launchers: `START.bat` (Windows) / `START.command` (Mac) / `start.sh` (Linux)
+Or just double-click `editor.html` on your machine.
 
 ---
 
@@ -109,20 +118,22 @@ Saves as standard HTML. Open in any browser, edit in any text editor, version in
 </div>
 ```
 
+---
+
 ## Browser Support
 
 | Browser | Status |
 | --- | --- |
 | Chrome | ✅ Full support |
 | Edge | ✅ Full support |
-| Firefox | ⚠️ Limited (no File System API) |
+| Firefox | ⚠️ Manual Save/Load only (no File System Access API) |
 | Safari | ⚠️ Limited (no File System API) |
 
 ---
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
+MIT License - see LICENSE
 
 ## Contributing
 
