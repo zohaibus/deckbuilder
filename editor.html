@@ -624,6 +624,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     <div class="sidebar">
       <div style="padding:8px; border-bottom:1px solid #333; display:flex; gap:5px;">
         <button style="flex:1; background:#007acc; border:none; color:white;" onclick="addSlide()">+ Slide</button>
+        <button onclick="cloneSlide()" style="color:#4ade80;">⎘</button>
         <button onclick="deleteSlide()" style="color:#ff4444;">🗑</button>
       </div>
       <div id="slideList" style="flex:1; overflow-y:auto; padding:8px;"></div>
@@ -2035,6 +2036,15 @@ function deleteSlide() {
     renderList();
     renderStage();
   }
+}
+
+function cloneSlide() {
+  saveCurrentSlide();
+  pushHistory();
+  const clone = JSON.parse(JSON.stringify(slides[currentSlide]));
+  slides.splice(currentSlide + 1, 0, clone);
+  goToSlide(currentSlide + 1);
+  toast('Cloned slide ' + currentSlide);
 }
 
 function setZoom(v) {
