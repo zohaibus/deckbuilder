@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Proposal Template | DeckBuilder</title>
+    <style>
+        :root {
+            /* DARK MODE (DEFAULT) */
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            
+            /* ACCENT COLORS */
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --accent-orange: #fb923c;
+            --accent-red: #f472b6;
+            
+            --diagram-bg: #0b1120;
+            --metric-bg: rgba(0,0,0,0.3);
+        }
+
+        /* LIGHT MODE OVERRIDES */
+        body[data-theme="light"] {
+            --bg-color: #ffffff;
+            --card-bg: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-color: #cbd5e1;
+
+            /* HIGH CONTRAST ACCENTS FOR LIGHT MODE */
+            --accent-blue: #0284c7;
+            --accent-green: #16a34a;
+            --accent-purple: #9333ea;
+            --accent-orange: #ea580c;
+            --accent-red: #db2777;
+
+            --diagram-bg: #f1f5f9;
+            --metric-bg: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            counter-reset: slide;
+        }
+
+        /* SLIDE CONTAINER */
+        .slide {
+            min-height: 100vh;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 2px solid var(--border-color);
+            page-break-after: always;
+            position: relative;
+            counter-increment: slide;
+        }
+
+        /* SLIDE NUMBER */
+        .slide::after {
+            content: counter(slide);
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* TYPOGRAPHY */
+        h1 { font-size: 3rem; margin-bottom: 20px; font-weight: 300; letter-spacing: -1px; }
+        h2 { font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-blue); }
+        h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--text-primary); }
+        .subtitle { font-size: 1.4rem; color: var(--text-secondary); margin-bottom: 40px; }
+
+        /* COMPONENTS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .highlight-box {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .insight-box {
+            background: rgba(192, 132, 252, 0.1);
+            border-left: 4px solid var(--accent-purple);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .diagram-box {
+            background: var(--diagram-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.4;
+            transition: background-color 0.3s;
+        }
+
+        /* LAYOUT UTILITIES */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
+        .three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 20px 0; }
+
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: rgba(0,0,0,0.05); color: var(--accent-blue); font-weight: 600; }
+
+        /* HELPERS */
+        .hl-green { color: var(--accent-green); font-weight: 600; }
+        
+        .metric-card {
+            text-align: center;
+            padding: 20px;
+            background: var(--metric-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .metric-value { font-size: 2.5rem; font-weight: 700; color: var(--accent-blue); }
+        .metric-label { font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px; }
+
+        /* SPEAKER NOTES (Hidden in Print) */
+        .speaker-note {
+            background: rgba(251, 146, 60, 0.1);
+            border: 1px dashed var(--accent-orange);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+        }
+        .speaker-note::before { content: "🎤 Talk Track: "; font-weight: 700; }
+
+        @media print {
+            .slide { min-height: auto; padding: 40px; page-break-after: always; }
+            .speaker-note { display: none; }
+            button { display: none; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+<button id="themeToggle" style="position: fixed; top: 20px; left: 20px; z-index: 1000; padding: 8px 12px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-primary); cursor: pointer; font-family: inherit;">
+    🌗 Theme
+</button>
+
+<div class="slide" style="text-align: center;">
+    <h1>[Proposal Title]</h1>
+    <div class="subtitle">[Subtitle: The Core Value Proposition]</div>
+
+    <div class="two-column" style="max-width: 800px; margin: 40px auto; text-align: left;">
+        <div class="card" style="border-top: 4px solid var(--accent-green);">
+            <h3>Easy Wins</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Low Risk / Immediate Adoption</p>
+            <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>[Quick Win 1]</li>
+                <li>[Quick Win 2]</li>
+                <li>[Quick Win 3]</li>
+            </ul>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--accent-orange);">
+            <h3>Strategic Bet</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">High Reward / 4-Week Pilot</p>
+            <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>[Big Hypothesis]</li>
+                <li>[Core Mechanism]</li>
+                <li>[Target Outcome]</li>
+            </ul>
+        </div>
+    </div>
+
+    <p style="color: var(--text-secondary); margin-top: 30px;">
+        [Your Name] | [Your Title] | [Date]
+    </p>
+    <div class="speaker-note">"I have a portfolio of ideas today. Some are immediate low-risk wins, and one is a strategic bet I want to test with a pilot."</div>
+</div>
+
+<div class="slide">
+    <h2>💡 The Core Insight</h2>
+    <p class="subtitle">Reframing the problem</p>
+
+    <div class="highlight-box" style="text-align: center; padding: 40px;">
+        <p style="font-size: 1.6rem;">
+            "[Insert a provocative statement or quote that summarizes the shift in thinking you are proposing.]"
+        </p>
+    </div>
+
+    <div class="two-column" style="margin-top: 30px;">
+        <div class="card" style="border-top: 4px solid var(--accent-red);">
+            <h3 style="color: var(--accent-red);">❌ The Old Way (Status Quo)</h3>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>[Pain Point 1: Cost/Slowness]</li>
+                <li>[Pain Point 2: Risk/Error]</li>
+                <li>[Pain Point 3: Bottleneck]</li>
+            </ul>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--accent-green);">
+            <h3 style="color: var(--accent-green);">✅ The New Way (Proposal)</h3>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>[Benefit 1: Efficiency]</li>
+                <li>[Benefit 2: Safety/Control]</li>
+                <li>[Benefit 3: Scalability]</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <h2>🏗️ The Architecture</h2>
+    <p class="subtitle">How it works (The Mechanism)</p>
+
+    <div class="diagram-box">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    PHASE 1: INPUT (Human or Data)                           │
+│   ┌──────────┐     ┌──────────────────┐     ┌──────────────────┐           │
+│   │  SOURCE  │ ──► │   PROCESSOR      │ ──► │    ARTIFACT      │           │
+│   └──────────┘     │  (The Tool)      │     │   (The Output)   │           │
+│                    └──────────────────┘     └──────────────────┘           │
+│                             │                        │                      │
+│                             ▼                        │                      │
+│                    ┌─────────────────┐               │                      │
+│                    │  SAFETY GATE    │               │                      │
+│                    └─────────────────┘               │                      │
+│                             │                        │                      │
+│              [ HUMAN REVIEW / APPROVAL ] ◄───────────┘                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    PHASE 2: EXECUTION (Automated)                           │
+│   [ Describe the end state where value is realized ]                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+    </div>
+    <div class="insight-box">
+        <p style="font-weight: bold; color: var(--accent-purple);">Safety Mechanism:</p>
+        <p>[Explain why this architecture is safe, robust, or low-risk.]</p>
+    </div>
+</div>
+
+<div class="slide">
+    <h2>💰 The Economic Case</h2>
+    <p class="subtitle">Why this makes financial/resource sense</p>
+
+    <div class="two-column">
+        <div class="card">
+            <h3>Comparison</h3>
+            <table>
+                <tr><th>Metric</th><th>Current</th><th>Proposed</th></tr>
+                <tr><td>Time per Unit</td><td>High</td><td><span class="hl-green">Low</span></td></tr>
+                <tr><td>Cost Model</td><td>O(N) - Scaling</td><td><span class="hl-green">O(1) - Fixed</span></td></tr>
+                <tr><td>Risk Profile</td><td>High</td><td><span class="hl-green">Managed</span></td></tr>
+            </table>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--accent-blue);">
+            <h3>Strategic Advantage</h3>
+            <div class="metric-card" style="margin: 20px 0;">
+                <div class="metric-value">X% / $Y</div>
+                <div class="metric-label">[Key Impact Metric]</div>
+            </div>
+            <p><strong>Talent/Culture:</strong> [Explain how this helps hiring or retention]</p>
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <h2>🧪 The Experiment Plan</h2>
+    <p class="subtitle">Time-boxed. Measurable. Low Risk.</p>
+
+    <div class="three-column">
+        <div class="card">
+            <h3 style="color: var(--accent-blue);">Setup</h3>
+            <p><strong>[Week 1]</strong></p>
+            <ul style="font-size: 0.9rem; margin-left: 20px;">
+                <li>Identify target</li>
+                <li>Assign Sponsor</li>
+                <li>Define baseline</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--accent-purple);">Execute</h3>
+            <p><strong>[Weeks 2-3]</strong></p>
+            <ul style="font-size: 0.9rem; margin-left: 20px;">
+                <li>Run the Tool</li>
+                <li>Human review loop</li>
+                <li>Measure Output</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--accent-green);">Evaluate</h3>
+            <p><strong>[Week 4]</strong></p>
+            <ul style="font-size: 0.9rem; margin-left: 20px;">
+                <li>Compare vs Baseline</li>
+                <li>Assess Quality</li>
+                <li><strong>Go/No-Go</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 20px; border: 1px dashed var(--accent-orange);">
+        <h3>🎯 Exit Criteria (The Kill Switch)</h3>
+        <table>
+            <tr><th>Metric</th><th>Target</th></tr>
+            <tr><td>[Metric 1]</td><td><span class="hl-green">100% Clean</span></td></tr>
+            <tr><td>[Metric 2]</td><td><span class="hl-green">&lt; 5% Error</span></td></tr>
+            <tr><td>[Metric 3]</td><td><span class="hl-green">≥ 2x Faster</span></td></tr>
+        </table>
+        <p style="font-size: 0.85rem; margin-top: 10px;"><strong>If we don't hit these metrics, we stop.</strong></p>
+    </div>
+</div>
+
+<script>
+    // Theme Toggle
+    const btn = document.getElementById('themeToggle');
+    const body = document.body;
+    btn.addEventListener('click', () => {
+        const current = body.getAttribute('data-theme');
+        body.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+    });
+
+    // Keyboard Navigation
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let idx = 0;
+    function go(i) {
+        idx = Math.max(0, Math.min(slides.length - 1, i));
+        slides[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(idx + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(idx - 1); }
+        if (e.key === 'Home') go(0);
+        if (e.key === 'End') go(slides.length - 1);
+    });
+</script>
+</body>
+</html>

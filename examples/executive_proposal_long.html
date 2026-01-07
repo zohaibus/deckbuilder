@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[PRESENTATION TITLE] | [AUDIENCE]</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --accent-orange: #fb923c;
+            --accent-red: #f472b6;
+            --accent-yellow: #facc15;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body[data-theme="light"] {
+            --bg-color: #ffffff;
+            --card-bg: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-color: #e2e8f0;
+        }
+
+        body[data-theme="light"] .diagram-box {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        body[data-theme="light"] .metric-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+
+        body[data-theme="light"] th {
+            background: #e2e8f0;
+        }
+
+        body[data-theme="light"] .highlight-box,
+        body[data-theme="light"] .insight-box {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            counter-reset: slide;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 2px solid var(--border-color);
+            page-break-after: always;
+            counter-increment: slide;
+            position: relative;
+        }
+
+        .slide::after {
+            content: counter(slide);
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        h1 { font-size: 3rem; margin-bottom: 20px; font-weight: 300; }
+        h2 { font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-blue); }
+        h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--text-primary); }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .four-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .highlight-box {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .insight-box {
+            background: rgba(192, 132, 252, 0.1);
+            border-left: 4px solid var(--accent-purple);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .insight-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .easy-win {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .easy-win-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent-green);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .bigger-bet {
+            background: rgba(251, 146, 60, 0.1);
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .bigger-bet-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent-orange);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .diagram-box {
+            background: #0b1120;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(0,0,0,0.2);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .hl { color: var(--accent-blue); font-weight: 600; }
+        .hl-green { color: var(--accent-green); font-weight: 600; }
+        .hl-orange { color: var(--accent-orange); font-weight: 600; }
+
+        .metric-card {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-green { background: rgba(74, 222, 128, 0.2); color: var(--accent-green); }
+        .badge-blue { background: rgba(56, 189, 248, 0.2); color: var(--accent-blue); }
+        .badge-orange { background: rgba(251, 146, 60, 0.2); color: var(--accent-orange); }
+
+        .speaker-note {
+            background: rgba(251, 146, 60, 0.1);
+            border: 1px dashed var(--accent-orange);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+        }
+
+        .speaker-note::before {
+            content: "TALK TRACK: ";
+            font-weight: 700;
+        }
+
+        ul { margin-left: 20px; }
+        li { margin: 8px 0; }
+
+        @media print {
+            .slide { min-height: auto; padding: 40px; }
+            .speaker-note { display: none; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+<button id="themeToggle" style="position: fixed; top: 14px; left: 14px; z-index: 9999; background: rgba(0,0,0,0.35); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 10px; padding: 8px 10px; cursor: pointer; font-size: 0.75rem;">
+    ☀️ / 🌙
+</button>
+
+<!-- ==================== SLIDE 1: TITLE ==================== -->
+<div class="slide" style="text-align: center;">
+    <h1>[Presentation Title]</h1>
+    <div class="subtitle">[Subtitle or tagline]</div>
+
+    <div class="two-column" style="max-width: 800px; margin: 40px auto;">
+        <div class="easy-win">
+            <div class="easy-win-label">[Category A Label]</div>
+            <ul style="text-align: left; margin-top: 10px;">
+                <li>[Item 1]</li>
+                <li>[Item 2]</li>
+                <li>[Item 3]</li>
+                <li>[Item 4]</li>
+                <li>[Item 5]</li>
+            </ul>
+        </div>
+        <div class="bigger-bet">
+            <div class="bigger-bet-label">[Category B Label]</div>
+            <ul style="text-align: left; margin-top: 10px;">
+                <li>[Item 1]</li>
+                <li>[Item 2]</li>
+                <li>[Item 3]</li>
+                <li>[Item 4]</li>
+            </ul>
+        </div>
+    </div>
+
+    <p style="color: var(--text-secondary); margin-top: 30px;">
+        [Your Name] | [Your Title] | [Date]
+    </p>
+
+    <div class="speaker-note">
+        [Opening talk track. How you want to frame the conversation.]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 2: OVERVIEW / TRILOGY ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Section Title]: [Subtitle]</h2>
+    <p class="subtitle">[Context or framing statement]</p>
+
+    <div class="three-column">
+        <div class="card" style="border-top: 4px solid var(--accent-orange);">
+            <h3 style="color: var(--accent-orange);">[Icon] [Topic 1]</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">[Date or context]</p>
+            <p style="margin-top: 15px;">
+                [Brief description of topic 1]
+            </p>
+            <div class="highlight-box">
+                <p><strong>[Label]:</strong></p>
+                <p>"[Key quote or thesis]"</p>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                <strong>[Application]:</strong> [How this applies]
+            </p>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--accent-blue);">
+            <h3 style="color: var(--accent-blue);">[Icon] [Topic 2]</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">[Date or context]</p>
+            <p style="margin-top: 15px;">
+                [Brief description of topic 2]
+            </p>
+            <div class="highlight-box">
+                <p><strong>[Label]:</strong></p>
+                <p>"[Key quote or thesis]"</p>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                <strong>[Application]:</strong> [How this applies]
+            </p>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--accent-green);">
+            <h3 style="color: var(--accent-green);">[Icon] [Topic 3]</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">[Date or context]</p>
+            <p style="margin-top: 15px;">
+                [Brief description of topic 3]
+            </p>
+            <div class="highlight-box">
+                <p><strong>[Label]:</strong></p>
+                <p>"[Key quote or thesis]"</p>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                <strong>[Application]:</strong> [How this applies]
+            </p>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <div class="insight-label">[Insight Label]</div>
+        <p style="font-size: 1.1rem;">
+            [Connecting statement that ties the three topics together]<br>
+            <strong>[Bold conclusion]</strong>
+        </p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for this slide]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 3: DEEP DIVE #1 ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Topic 1 Title]: [Subtitle]</h2>
+    <p class="subtitle">[Category Label]: [Brief description]</p>
+
+    <div class="two-column">
+        <div class="card">
+            <h3>[Left Column Title]</h3>
+            <table>
+                <tr>
+                    <th>[Header 1]</th>
+                    <th>[Header 2]</th>
+                    <th>[Header 3]</th>
+                    <th>[Header 4]</th>
+                </tr>
+                <tr>
+                    <td>[Data]</td>
+                    <td>[Data]</td>
+                    <td>[Data]</td>
+                    <td>[Data]</td>
+                </tr>
+                <tr>
+                    <td>[Data]</td>
+                    <td>[Data]</td>
+                    <td>[Data]</td>
+                    <td><span class="hl-green">[Highlight]</span></td>
+                </tr>
+            </table>
+            <p style="margin-top: 15px; color: var(--text-secondary);">
+                [Additional context or explanation]
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>[Right Column Title]</h3>
+            <ul>
+                <li><strong>[Point 1]</strong> [description]</li>
+                <li><strong>[Point 2]</strong> [description]</li>
+                <li><strong>[Point 3]</strong> [description]</li>
+                <li><strong>[Point 4]</strong> [description]</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="easy-win" style="margin-top: 20px;">
+        <div class="easy-win-label">[Action Box Label]</div>
+        <div class="two-column" style="margin: 10px 0;">
+            <div>
+                <p><strong>[Field 1]:</strong> [Value]</p>
+                <p><strong>[Field 2]:</strong> [Value]</p>
+                <p><strong>[Field 3]:</strong> [Value]</p>
+            </div>
+            <div>
+                <p><strong>[Field 4]:</strong> [Value]</p>
+                <p><strong>[Field 5]:</strong> [Value]</p>
+                <p><strong>[Field 6]:</strong> [Value]</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for this slide]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 4: DEEP DIVE #2 ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Topic 2 Title]: [Subtitle]</h2>
+    <p class="subtitle">[Category Label]: [Brief description]</p>
+
+    <div class="two-column">
+        <div class="card">
+            <h3>[Problem Title]</h3>
+            <ul>
+                <li>[Problem 1]</li>
+                <li>[Problem 2]</li>
+                <li>[Problem 3]</li>
+                <li>[Problem 4]</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>[Solution Title]</h3>
+            <div class="diagram-box" style="font-size: 0.8rem;">
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  [INPUT]    │ ──► │  [PROCESS]  │ ──► │  [OUTPUT]   │
+│             │     │             │     │             │
+└─────────────┘     └─────────────┘     └─────────────┘
+            </div>
+            <p style="margin-top: 15px; color: var(--text-secondary);">
+                [Explanation of the flow]
+            </p>
+        </div>
+    </div>
+
+    <div class="easy-win" style="margin-top: 20px;">
+        <div class="easy-win-label">[Applications Label]</div>
+        <div class="three-column">
+            <div class="card">
+                <h3>[Application 1]</h3>
+                <ul style="font-size: 0.85rem;">
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>[Application 2]</h3>
+                <ul style="font-size: 0.85rem;">
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>[Application 3]</h3>
+                <ul style="font-size: 0.85rem;">
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                    <li>[Detail]</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlight-box">
+        <p><strong>[Validation Label]:</strong> [External validation or proof point]</p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for this slide]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 5: DEEP DIVE #3 ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Topic 3 Title]: [Subtitle]</h2>
+    <p class="subtitle">[Category Label]: [Brief description]</p>
+
+    <div class="two-column">
+        <div class="card">
+            <h3>[Problem Title]</h3>
+            <ul>
+                <li>[Problem 1]</li>
+                <li>[Problem 2]</li>
+                <li>[Problem 3]</li>
+                <li>[Problem 4]</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>[Mental Model Title]</h3>
+            <div class="diagram-box" style="font-size: 0.9rem; text-align: center;">
+[Component 1] = [Analogy 1]  ([Description])
+[Component 2] = [Analogy 2]  ([Description])
+[Component 3] = [Analogy 3]  ([Description])
+            </div>
+            <p style="margin-top: 15px; color: var(--text-secondary);">
+                [Explanation of the mental model]
+            </p>
+        </div>
+    </div>
+
+    <div class="easy-win" style="margin-top: 20px;">
+        <div class="easy-win-label">[Applications Label]</div>
+        <div class="two-column">
+            <div class="card">
+                <h3>[Application 1]</h3>
+                <p style="font-size: 0.9rem; margin-top: 10px;">
+                    [Description of application 1]
+                </p>
+            </div>
+            <div class="card">
+                <h3>[Application 2]</h3>
+                <p style="font-size: 0.9rem; margin-top: 10px;">
+                    [Description of application 2]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlight-box">
+        <p><strong>[Key Insight]:</strong> [Important takeaway that connects to the bigger picture]</p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for this slide]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 6: MORE ITEMS / STANDARDIZATION ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Section Title]: [Subtitle]</h2>
+    <p class="subtitle">[Framing statement]</p>
+
+    <div class="two-column">
+        <div class="card" style="border-left: 4px solid var(--accent-green);">
+            <h3>[Item 1 Title]</h3>
+            <p style="margin-top: 15px;">
+                <strong>[Problem]:</strong> [Problem description]
+            </p>
+            <p style="margin-top: 10px;">
+                <strong>[Solution]:</strong> [Solution description]
+            </p>
+            <div class="diagram-box" style="font-size: 0.75rem; margin-top: 15px;">
+# [Input description]:
+[Example input]
+
+# [Output description]:
+[Example output]
+            </div>
+            <p style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                [Benefit statement]
+            </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid var(--accent-blue);">
+            <h3>[Item 2 Title]</h3>
+            <p style="margin-top: 15px;">
+                <strong>[Problem]:</strong> [Problem description]
+            </p>
+            <p style="margin-top: 10px;">
+                <strong>[Solution]:</strong> [Solution description]
+            </p>
+            <div class="diagram-box" style="font-size: 0.75rem; margin-top: 15px;">
+# [Input description]:
+# [Output description]:
+
+[Example content]
+            </div>
+            <p style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                [Benefit statement]
+            </p>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <div class="insight-label">[Pattern Label]</div>
+        <p style="font-size: 1.1rem;">
+            [Statement about the pattern that makes these items candidates for this approach]
+        </p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for this slide]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 7: TRANSITION / SEGUE ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Transition Title]: [Subtitle]</h2>
+    <p class="subtitle">[Framing for the transition]</p>
+
+    <div class="highlight-box" style="text-align: center; padding: 30px;">
+        <p style="font-size: 1.4rem;">
+            If [pattern] can [result 1]...<br>
+            If [pattern] can [result 2]...<br>
+            If [pattern] can [result 3]...<br><br>
+            <span style="color: var(--accent-orange);">[Big question that leads to the next section]</span>
+        </p>
+    </div>
+
+    <div class="two-column" style="margin-top: 30px;">
+        <div class="easy-win">
+            <div class="easy-win-label">[What We Covered]</div>
+            <table>
+                <tr><td>[Input]</td><td>[Output]</td><td>[Role]</td></tr>
+                <tr><td>[Example 1]</td><td>[Result 1]</td><td>[Action 1]</td></tr>
+                <tr><td>[Example 2]</td><td>[Result 2]</td><td>[Action 2]</td></tr>
+                <tr><td>[Example 3]</td><td>[Result 3]</td><td>[Action 3]</td></tr>
+            </table>
+        </div>
+
+        <div class="bigger-bet">
+            <div class="bigger-bet-label">[The Next Step]</div>
+            <table>
+                <tr><td>[Input]</td><td>[Output]</td><td>[Role]</td></tr>
+                <tr><td>[New Input 1]</td><td>[New Output 1]</td><td>[New Action]</td></tr>
+                <tr><td>[New Input 2]</td><td>[New Output 2]</td><td>[New Action]</td></tr>
+                <tr><td>[New Input 3]</td><td>[New Output 3]</td><td>[New Action]</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <div class="insight-label">[Hypothesis Label]</div>
+        <p style="font-size: 1.1rem;">
+            [Statement about why the pattern should extend to the new domain]
+        </p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for the transition]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 8: CORE INSIGHT ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Section Title]: [Subtitle]</h2>
+    <p class="subtitle">[Key framing]</p>
+
+    <div class="highlight-box" style="text-align: center; padding: 40px;">
+        <p style="font-size: 1.6rem;">
+            "[First part of the key insight]<br>
+            [Second part of the key insight]<br><br>
+            But we <span class="hl-green">can</span> [what we CAN do]."
+        </p>
+    </div>
+
+    <div class="two-column" style="margin-top: 30px;">
+        <div class="card" style="border-top: 4px solid var(--accent-red);">
+            <h3 style="color: var(--accent-red);">❌ [Wrong Approach]</h3>
+            <ul style="margin-top: 15px;">
+                <li>[Problem 1]</li>
+                <li>[Problem 2]</li>
+                <li>[Problem 3]</li>
+                <li>[Problem 4]</li>
+            </ul>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--accent-green);">
+            <h3 style="color: var(--accent-green);">✅ [Right Approach]</h3>
+            <ul style="margin-top: 15px;">
+                <li>[Benefit 1]</li>
+                <li>[Benefit 2]</li>
+                <li>[Benefit 3]</li>
+                <li>[Benefit 4]</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for the core insight]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 9: ARCHITECTURE ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Architecture Title]</h2>
+    <p class="subtitle">[Trust model or framing]</p>
+
+    <div class="diagram-box">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    PHASE 1: [PHASE NAME] ([Cost/Time])                      │
+│                                                                              │
+│   ┌──────────┐     ┌──────────────────┐     ┌──────────────────┐           │
+│   │  [INPUT] │ ──► │    [PROCESS]     │ ──► │    [OUTPUT]      │           │
+│   │          │     │                  │     │                  │           │
+│   │          │     │  [Detail 1]      │     │  • [Output 1]    │           │
+│   └──────────┘     │  [Detail 2]      │     │  • [Output 2]    │           │
+│                    └──────────────────┘     │  • [Output 3]    │           │
+│                             │               └──────────────────┘           │
+│                             ▼                        │                      │
+│                    ┌─────────────────┐               │                      │
+│                    │  [GATE/CHECK]   │               │                      │
+│                    └─────────────────┘               │                      │
+│                             │                        │                      │
+│              ┌──────────────┼──────────────┐        │                      │
+│              ▼              ▼              ▼        │                      │
+│           🟢 [HIGH]     🟡 [MEDIUM]     🔴 [LOW]    │                      │
+│           [Action]      [Action]        [Action]   │                      │
+│              └──────────────┴──────────────┘        │                      │
+│                             │                        │                      │
+│              [ FINAL GATE ] ◄── [Human Action]       │                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    PHASE 2: [PHASE NAME] ([Cost/Time])                      │
+│                                                                              │
+│   [Description of what happens in this phase]                               │
+│   [Key characteristics: deterministic, repeatable, etc.]                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+    </div>
+
+    <div class="insight-box">
+        <div class="insight-label">[Insight Label]</div>
+        <p>[How this connects to the earlier pattern]</p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for the architecture]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 10: EXTENSION / ADDITIONAL USE CASE ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Extension Title]: [Subtitle]</h2>
+    <p class="subtitle">[How this extends the core idea]</p>
+
+    <div class="two-column">
+        <div class="card">
+            <h3>[Problem Title]</h3>
+            <ul>
+                <li>[Problem 1]</li>
+                <li>[Problem 2]</li>
+                <li>[Problem 3]</li>
+                <li>[Problem 4]</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>[Extension Solution]</h3>
+            <ul>
+                <li>[How it applies 1]</li>
+                <li>[How it applies 2]</li>
+                <li>[How it applies 3]</li>
+                <li>[How it applies 4]</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="diagram-box" style="margin-top: 20px; font-size: 0.8rem;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│   [INPUT DESCRIPTION]                                                        │
+│           │                                                                  │
+│           ▼                                                                  │
+│   ┌───────────────────┐                                                     │
+│   │  [ANALYSIS STEP]  │  "[Question 1]"                                     │
+│   │                   │  "[Question 2]"                                     │
+│   │                   │  "[Question 3]"                                     │
+│   └───────────────────┘                                                     │
+│           │                                                                  │
+│           ▼                                                                  │
+│   ┌───────────────────┐     ┌───────────────────┐                          │
+│   │  [INTERMEDIATE]   │ ──► │  [FINAL OUTPUT]   │  ◄── [Benefit]           │
+│   │                   │     │                   │                          │
+│   └───────────────────┘     └───────────────────┘                          │
+│                                      │                                       │
+│                                      ▼                                       │
+│                             [ [OUTCOME] ]                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+    </div>
+
+    <div class="highlight-box">
+        <p><strong>[Key Insight]:</strong> [What the human role remains. Same pattern statement.]</p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for the extension]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 11: THE EXPERIMENT / ASK ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Experiment Title]</h2>
+    <p class="subtitle">[Time]. [Scope]. [Constraints].</p>
+
+    <div class="highlight-box" style="text-align: center; padding: 30px;">
+        <p style="font-size: 1.4rem; color: var(--accent-blue);">
+            "[What you're NOT asking for]<br>
+            [What you ARE asking for]"
+        </p>
+    </div>
+
+    <div class="three-column" style="margin-top: 20px;">
+        <div class="card">
+            <h3 style="color: var(--accent-blue);">[Phase 1]: [Name]</h3>
+            <ul style="font-size: 0.9rem; margin-top: 15px;">
+                <li>[Action 1]</li>
+                <li>[Action 2]</li>
+                <li>[Action 3]</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--accent-purple);">[Phase 2]: [Name]</h3>
+            <ul style="font-size: 0.9rem; margin-top: 15px;">
+                <li>[Action 1]</li>
+                <li>[Action 2]</li>
+                <li><strong>[Metric]:</strong> [What to measure]</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--accent-green);">[Phase 3]: [Name]</h3>
+            <ul style="font-size: 0.9rem; margin-top: 15px;">
+                <li>[Action 1]</li>
+                <li>[Action 2]</li>
+                <li><strong>[Decision]:</strong> [Go/No-Go]</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 20px; border: 1px dashed var(--accent-orange);">
+        <h3>[Exit Criteria Title]</h3>
+        <table>
+            <tr>
+                <th>[Column 1]</th>
+                <th>[Column 2]</th>
+                <th>[Column 3]</th>
+            </tr>
+            <tr>
+                <td>[Metric 1]</td>
+                <td><span class="hl-green">[Target 1]</span></td>
+                <td>[How measured]</td>
+            </tr>
+            <tr>
+                <td>[Metric 2]</td>
+                <td><span class="hl-green">[Target 2]</span></td>
+                <td>[How measured]</td>
+            </tr>
+            <tr>
+                <td>[Metric 3]</td>
+                <td><span class="hl-green">[Target 3]</span></td>
+                <td>[How measured]</td>
+            </tr>
+            <tr>
+                <td>[Metric 4]</td>
+                <td><span class="hl-green">[Target 4]</span></td>
+                <td>[How measured]</td>
+            </tr>
+        </table>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">
+            <strong>[Commitment statement]:</strong> [What happens if targets aren't met]
+        </p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for the experiment ask]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 12: SUMMARY ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Summary Title]: [Subtitle]</h2>
+    <p class="subtitle">[Framing for the summary]</p>
+
+    <div class="two-column">
+        <div class="easy-win">
+            <div class="easy-win-label">[Category A Summary]</div>
+            <table>
+                <tr>
+                    <th>[Column 1]</th>
+                    <th>[Column 2]</th>
+                    <th>[Column 3]</th>
+                </tr>
+                <tr>
+                    <td>[Item 1]</td>
+                    <td>[Effort]</td>
+                    <td>[Impact]</td>
+                </tr>
+                <tr>
+                    <td>[Item 2]</td>
+                    <td>[Effort]</td>
+                    <td>[Impact]</td>
+                </tr>
+                <tr>
+                    <td>[Item 3]</td>
+                    <td>[Effort]</td>
+                    <td>[Impact]</td>
+                </tr>
+                <tr>
+                    <td>[Item 4]</td>
+                    <td>[Effort]</td>
+                    <td>[Impact]</td>
+                </tr>
+                <tr>
+                    <td>[Item 5]</td>
+                    <td>[Effort]</td>
+                    <td>[Impact]</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="bigger-bet">
+            <div class="bigger-bet-label">[Category B Summary]</div>
+            <table>
+                <tr>
+                    <th>[Column 1]</th>
+                    <th>[Column 2]</th>
+                    <th>[Column 3]</th>
+                </tr>
+                <tr>
+                    <td>[Item 1]</td>
+                    <td>[Effort]</td>
+                    <td>[Potential Impact]</td>
+                </tr>
+                <tr>
+                    <td>[Item 2]</td>
+                    <td>[Effort]</td>
+                    <td>[Potential Impact]</td>
+                </tr>
+            </table>
+            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                [Commitment statement about what happens if it doesn't work]
+            </p>
+        </div>
+    </div>
+
+    <div class="highlight-box" style="text-align: center; margin-top: 20px;">
+        <p style="font-size: 1.2rem;">
+            <strong>[The Ask]:</strong> [Clear statement of what you want approved]<br>
+            [Follow-up commitment]
+        </p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for the summary]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 13: CLOSER / STRATEGIC ADVANTAGE ==================== -->
+<div class="slide">
+    <h2>[Emoji] [Closer Title]: [Subtitle]</h2>
+    <p class="subtitle">[Optional: If time permits]</p>
+
+    <div class="two-column">
+        <div class="card" style="border-left: 4px solid var(--accent-red);">
+            <h3 style="color: var(--accent-red);">❌ [Alternative Approach]</h3>
+            <div class="metric-card" style="margin: 20px 0;">
+                <div class="metric-value" style="color: var(--accent-red); font-size: 1.5rem;">[Negative Metric]</div>
+                <div class="metric-label">[Description]</div>
+            </div>
+            <ul>
+                <li>[Drawback 1]</li>
+                <li>[Drawback 2]</li>
+                <li>[Drawback 3]</li>
+            </ul>
+        </div>
+
+        <div class="card" style="border-left: 4px solid var(--accent-green);">
+            <h3 style="color: var(--accent-green);">✅ [Your Approach]</h3>
+            <div class="metric-card" style="margin: 20px 0;">
+                <div class="metric-value" style="color: var(--accent-green); font-size: 1.5rem;">[Positive Metric]</div>
+                <div class="metric-label">[Description]</div>
+            </div>
+            <ul>
+                <li>[Benefit 1]</li>
+                <li>[Benefit 2]</li>
+                <li>[Benefit 3]</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="highlight-box" style="text-align: center; padding: 30px; margin-top: 30px;">
+        <p style="font-size: 1.8rem; color: var(--accent-blue);">
+            [First line of mic drop statement]<br>
+            <span style="color: var(--accent-green);">[Second line of mic drop statement]</span>
+        </p>
+        <p style="font-size: 1.2rem; margin-top: 20px; color: var(--text-primary);">
+            [Concluding statement about what this means]
+        </p>
+    </div>
+
+    <div class="speaker-note">
+        [Talk track for the closer. Deliver slowly.]
+    </div>
+</div>
+
+<!-- ==================== SLIDE 14: QUESTIONS ==================== -->
+<div class="slide" style="text-align: center;">
+    <h1>Questions?</h1>
+    
+    <div style="margin-top: 40px;">
+        <p style="font-size: 1.3rem; color: var(--text-secondary);">
+            "[Summary line 1]<br>
+            [Summary line 2]<br>
+            [Summary line 3]"
+        </p>
+    </div>
+
+    <div style="margin-top: 40px; color: var(--text-secondary);">
+        <p>[Your Name] | [Your Title]</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">[Footer note]</p>
+    </div>
+</div>
+
+<script>
+  // Theme toggle
+  const body = document.body;
+  const btn = document.getElementById('themeToggle');
+  btn.addEventListener('click', () => {
+    body.dataset.theme = body.dataset.theme === 'light' ? 'dark' : 'light';
+  });
+
+  // Keyboard navigation
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let idx = 0;
+
+  function go(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(idx + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(idx - 1); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+  });
+
+  window.addEventListener('load', () => {
+    const nearest = slides
+      .map((s, i) => [i, Math.abs(s.getBoundingClientRect().top)])
+      .sort((a, b) => a[1] - b[1])[0][0];
+    idx = nearest;
+  });
+
+  window.addEventListener('scroll', () => {
+    const nearest = slides
+      .map((s, i) => [i, Math.abs(s.getBoundingClientRect().top)])
+      .sort((a, b) => a[1] - b[1])[0][0];
+    idx = nearest;
+  }, { passive: true });
+</script>
+
+</body>
+</html>
