@@ -111,6 +111,15 @@ DeckBuilder is intentionally minimal:
 
 ---
 
+## 📂 Examples
+
+**[Executive Proposal Template](examples/executive_proposal.html)**
+A generic, reusable template for engineering proposals.
+* **Features:** Dark/Light mode toggle, ASCII diagrams, Portfolio/ROI slides.
+* **Use case:** Pitching technical pilots to leadership.
+
+---
+
 ## 🛠️ Technical Details
 
 * **Stack:** Pure HTML/CSS/JavaScript
@@ -122,3 +131,4 @@ MIT License. Issues and PRs welcome — keep it simple, this is intentionally a 
 
 ---
 *Built by [Zohaib Usmani](https://github.com/zohaibus) — Principal Engineer solving the presentation versioning problem.*
+
