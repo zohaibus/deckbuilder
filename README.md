@@ -11,10 +11,10 @@
 
 ## ⚡ Why This Exists
 
-### The AI Workflow Problem
+### The AI Workflow Problem (Optional)
 Most tools break the flow between generation and polish. DeckBuilder bridges that gap:
 
-1.  **Prompt:** Ask ChatGPT/Claude to "Generate an HTML slide deck about [System Arch]..."
+1.  **Prompt:** Ask **Any LLM** (ChatGPT, Claude or a **Local Open Source Model**) to "Generate an HTML slide deck about [System Arch]..."
 2.  **Paste:** Drop the raw code directly into DeckBuilder.
 3.  **Polish:** Use the visual editor to fix layout anomalies and drag-and-drop assets.
 4.  **Ship:** Export to PDF or save as a single HTML file.
@@ -131,4 +131,5 @@ MIT License. Issues and PRs welcome — keep it simple, this is intentionally a 
 
 ---
 *Built by [Zohaib Usmani](https://github.com/zohaibus) — Principal Engineer solving the presentation versioning problem.*
+
 
